@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#pragma once
 struct statusbank {
   int dineur;
   int id;
@@ -26,20 +27,20 @@ public:
 };
 
 class userlog {
-  std::random_device ko;
-  std::mt19937 gen(ko());
+  std::random_device rd;
+  std::mt19937 gen(rd());
 
-  std::uniform_int_distribution<> dist(1, 1000);
+  std::uniform_int_distribution<> distrib(1, 1000);
 
   void DefaultUser(statusbank &k) {
 
     k.dineur = 100;
-    k.id = dist(gen);
+    k.id = distrib(gen);
     k.naam = "bit el insano ";
   }
   void userdef(statusbank &user) {
     user.dineur = 0;
-    user.id = dist(gen);
+    user.id = distrib(gen);
     user.naam = "";
 
     std::cout << "Hola porfavor ingrese sus datos" << std::endl;
@@ -57,15 +58,16 @@ public:
     int confirmatio = 0;
     std::cin >> confirmatio;
     if (confirmatio == 1) {
-      userdef();
+      userdef(user);
     } else {
-      DefaultUser();
+      DefaultUser(user k);
     }
   }
 };
 
 class billactions {
-  void agregardinero(statusbank &user, statusbank k &) {
+
+  void agregardinero(statusbank &user, statusbank &k) {
     while (true) {
       int option = 0;
       std::cout << "hola buenas cuanto dinero desea insertar?" << std::endl;
@@ -107,96 +109,97 @@ class billactions {
         break;
       }
     }
+  }
 
-    void sacardinero(statusbank & user, statusbank k &) {
-      while (true) {
-        int option = 0;
-        std::cout << "hola buenas cuanto dinero desea sacar?" << std::endl;
-        std::cout << "1.100$ 2.300$ 3.700$ 4.1000$ 5. Salir" << std::endl;
-        std::cin >> option;
+  void sacardinero(statusbank &user, statusbank &k) {
+    while (true) {
+      int option = 0;
+      std::cout << "hola buenas cuanto dinero desea sacar?" << std::endl;
+      std::cout << "1.100$ 2.300$ 3.700$ 4.1000$ 5. Salir" << std::endl;
+      std::cin >> option;
 
-        if (option == 5) {
-          break;
+      if (option == 5) {
+        break;
 
-        } else if (option == 1) {
-          std::cout << "Hola buenas tardes se te ha quitado  100$ de tu cuenta "
-                    << std::endl;
-          user.dineur -= 100;
-          k.dineur -= 100;
+      } else if (option == 1) {
+        std::cout << "Hola buenas tardes se te ha quitado  100$ de tu cuenta "
+                  << std::endl;
+        user.dineur -= 100;
+        k.dineur -= 100;
 
-          continue;
-        } else if (option == 2) {
-          std::cout << "Hola buenas tardes se te ha quitado 300$ de tu cuenta "
-                    << std::endl;
-          user.dineur -= 300;
-          k.dineur -= 300;
+        continue;
+      } else if (option == 2) {
+        std::cout << "Hola buenas tardes se te ha quitado 300$ de tu cuenta "
+                  << std::endl;
+        user.dineur -= 300;
+        k.dineur -= 300;
 
-          continue;
-        } else if (option == 3) {
-          std::cout << "Hola buenas tardes se te ha quitado 700$ de tu cuenta "
-                    << std::endl;
-          user.dineur -= 700;
-          k.dineur -= 700;
+        continue;
+      } else if (option == 3) {
+        std::cout << "Hola buenas tardes se te ha quitado 700$ de tu cuenta "
+                  << std::endl;
+        user.dineur -= 700;
+        k.dineur -= 700;
 
-          continue;
-        } else if (option == 4) {
-          std::cout << "Hola buenas tardes se te ha quitado 1000$ de tu cuenta "
-                    << std::endl;
-          user.dineur -= 1000;
-          k.dineur -= 1000;
+        continue;
+      } else if (option == 4) {
+        std::cout << "Hola buenas tardes se te ha quitado 1000$ de tu cuenta "
+                  << std::endl;
+        user.dineur -= 1000;
+        k.dineur -= 1000;
 
-          continue;
-        } else {
-          break;
-        }
+        continue;
+      } else {
+        break;
       }
+    }
+  }
 
-    public:
-      void billinit() {
-        while (true) {
-          int relevans = 0;
+public:
+  void billinit() {
+    while (true) {
+      int relevans = 0;
 
-          std::cout << "hola buenas tardes usted desea sacar o agregar dinero "
-                       "a su cuenta? (1 para sacar, 2 para agregar,3 para si)"
-                    << std::endl;
-          std::cin >> relevans;
-          if (relevans == 1) {
+      std::cout << "hola buenas tardes usted desea sacar o agregar dinero "
+                   "a su cuenta? (1 para sacar, 2 para agregar,3 para si)"
+                << std::endl;
+      std::cin >> relevans;
+      if (relevans == 1) {
 
-            sacardinero();
-            continue;
+        sacardinero();
+        continue;
 
-          } else if (relevans == 2) {
-            agregardinero();
-            continue;
+      } else if (relevans == 2) {
+        agregardinero();
+        continue;
 
-          } else if (relevans == 3) {
-            break;
-          } else {
+      } else if (relevans == 3) {
+        break;
+      } else {
 
-            std::cout << "poravor ingrese un numero valido " << std::endl;
-            continue;
-          }
-        }
+        std::cout << "poravor ingrese un numero valido " << std::endl;
+        continue;
       }
-    };
+    }
+  }
+};
 
-    class menues {
+class menues {
 
-      void init() {
-        userlog neptune;
-        billactions moon;
-        std::cout
-            << "hola bienvenido al inicio de la cuenta de banco, por favor "
-               "presione 1 para iniciar sesion, 0 para salir";
-        int conf = 0;
-        std::cin >> conf;
-        if (conf == 1) {
-          neptune.login();
-          moon.billinit();
+  void init() {
+    userlog neptune;
+    billactions moon;
+    std::cout << "hola bienvenido al inicio de la cuenta de banco, por favor "
+                 "presione 1 para iniciar sesion, 0 para salir";
+    int conf = 0;
+    std::cin >> conf;
+    if (conf == 1) {
+      neptune.login();
+      moon.billinit();
 
-        }
+    }
 
-        else {
-        }
-      }
-    };
+    else {
+    }
+  }
+};
